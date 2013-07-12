@@ -1,6 +1,10 @@
 package com.tigerby;
 
 import com.tigerby.utils.PropertiesManager;
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Options;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -38,7 +42,21 @@ public class Main {
 
         Object result = method.invoke(cache, methodArgs);
 
-        System.out.println(result);
+        if(result instanceof Collection) {
+            Collection collection = (Collection)result;
+            for(Object o: collection) {
+                System.out.println(o);
+            }
+        } else if(result instanceof Map) {
+            Map map = (Map)result;
+            Set<Map.Entry> entrySet = map.entrySet();
+            for(Map.Entry entry: entrySet) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+        } else {
+            System.out.println(result);
+        }
+
     }
 
 
